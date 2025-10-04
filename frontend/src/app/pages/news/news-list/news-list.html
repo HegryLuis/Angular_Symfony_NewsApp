@@ -1,0 +1,66 @@
+<div class="news-page-container">
+  <div class="header">
+    <h1>All News</h1>
+    <button (click)="logout()">Logout</button>
+  </div>
+
+  <div class="filters">
+    <input
+      type="text"
+      placeholder="Filter by title..."
+      #filterInput
+      (input)="onFilterChange(filterInput.value)"
+    />
+    <select (change)="onSortChange($event)">
+      <option value="desc">Newest First</option>
+      <option value="asc">Oldest First</option>
+    </select>
+  </div>
+
+  <div class="news-grid" *ngIf="filteredNews$ | async as newsItems; else loading">
+    <div *ngIf="newsItems.length === 0 && !isLoading" class="no-news">No news found.</div>
+
+    <div class="news-card" *ngFor="let news of newsItems">
+      <div class="card-content">
+        <h2>{{ news.title }}</h2>
+        <p class="news-date">{{ news.createdAt | date : 'medium' }}</p>
+        <p class="news-preview">{{ news.content | slice : 0 : 100 }}...</p>
+      </div>
+      <div class="card-actions">
+        <button (click)="editNews(news.id)">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p *ngIf="isLoading">Loading news...</p>
+  </ng-template>
+</div>
+
+<!-- <div class="wrap">
+  <h1>News</h1>
+
+  <input
+    type="text"
+    placeholder="Filter by title..."
+    #filterInput
+    (input)="onFilterChange(filterInput.value)"
+  />
+
+  <ul class="news-list" *ngIf="filteredNews$ | async as newsItems; else loading">
+    <li *ngIf="newsItems.length === 0 && !isLoading">No news found.</li>
+
+    <li *ngFor="let news of newsItems">
+      <a [routerLink]="['/news', news.id, 'edit']">
+        <span>{{ news.title }}</span>
+        <small>{{ news.createdAt | date : 'short' }}</small>
+      </a>
+    </li>
+  </ul>
+
+  <ng-template #loading>
+    <p *ngIf="isLoading">Loading news...</p>
+  </ng-template>
+
+  <button (click)="logout()">Logout</button>
+</div> -->

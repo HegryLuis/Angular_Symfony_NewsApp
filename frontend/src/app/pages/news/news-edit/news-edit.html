@@ -1,0 +1,22 @@
+<div class="wrap">
+  <form *ngIf="newsForm" [formGroup]="newsForm" (ngSubmit)="onSave()">
+    <h2>Edit news</h2>
+
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" />
+    </div>
+
+    <div class="form-field">
+      <label for="content">Content</label>
+      <textarea id="content" formControlName="content" rows="10"></textarea>
+    </div>
+
+    <div class="actions">
+      <button type="submit" [disabled]="newsForm.invalid || newsForm.pristine">Save Changes</button>
+      <a routerLink="/news">Cancel editing</a>
+    </div>
+  </form>
+
+  <p *ngIf="!newsForm">Loading news details...</p>
+</div>
